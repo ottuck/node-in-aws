@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>실시간 채팅</title>
+  <style>
+    /* 간단한 스타일링 */
+    body { font-family: Arial, sans-serif; }
+    #messages { list-style-type: none; padding: 0; }
+    #messages li { padding: 5px 10px; }
+    #messages li:nth-child(odd) { background: #f9f9f9; }
+    #chat-form { display: flex; }
+    #chat-form input { flex: 1; padding: 10px; }
+    #chat-form button { padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>실시간 채팅</h1>
+  <ul id="messages"></ul>
+  <form id="chat-form">
+    <input id="message-input" autocomplete="off" placeholder="메시지를 입력하세요..." /><button>보내기</button>
+  </form>
+  <p><a href="/auth/logout">로그아웃</a></p>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>
