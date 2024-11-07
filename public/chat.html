@@ -2,25 +2,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>실시간 채팅</title>
+  <title>PokeChat</title>
   <style>
     /* 간단한 스타일링 */
-    body { font-family: Arial, sans-serif; }
-    #messages { list-style-type: none; padding: 0; max-height: 500px; overflow-y: scroll; }
-    #messages li { padding: 5px 10px; display: flex; align-items: center; }
-    #messages li:nth-child(odd) { background: #f9f9f9; }
-    #chat-form { display: flex; margin-top: 10px; }
-    #chat-form input { flex: 1; padding: 10px; }
-    #chat-form button { padding: 10px; }
-    img { border-radius: 50%; }
+    body { 
+      font-family: Arial, sans-serif; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    #chat-container {
+      width: 360px; /* 스마트폰 크기 비슷 */
+      height: 640px; /* 스마트폰 크기 비슷 */
+      border: 16px solid #333;
+      border-radius: 30px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #messages { 
+      list-style-type: none; 
+      padding: 10px; 
+      margin: 0; 
+      flex: 1; 
+      overflow-y: scroll; 
+      background-color: #e5ddd5;
+    }
+    #messages li { 
+      padding: 5px 10px; 
+      display: flex; 
+      align-items: center; 
+      margin-bottom: 10px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+    #messages li:nth-child(odd) { background: #f1f1f1; }
+    #chat-form { 
+      display: flex; 
+      border-top: 1px solid #ccc; 
+      padding: 10px; 
+      background-color: #f0f0f0;
+    }
+    #chat-form input { 
+      flex: 1; 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: 20px; 
+      outline: none;
+    }
+    #chat-form button { 
+      padding: 10px 20px; 
+      margin-left: 10px; 
+      border: none; 
+      border-radius: 20px; 
+      background-color: #4CAF50; 
+      color: white; 
+      cursor: pointer;
+    }
+    #chat-form button:hover { background-color: #45a049; }
+    img { 
+      border-radius: 50%; 
+      margin-right: 10px; 
+    }
+    .timestamp {
+      color: gray; 
+      font-size: 0.8em; 
+      margin-left: 5px;
+    }
   </style>
 </head>
 <body>
-  <h1>실시간 채팅</h1>
-  <ul id="messages"></ul>
-  <form id="chat-form">
-    <input id="message-input" autocomplete="off" placeholder="메시지를 입력하세요..." /><button>보내기</button>
-  </form>
+  <div id="chat-container">
+    <h1 style="text-align:center; background-color:#333; color:#fff; margin:0; padding:10px;">실시간 채팅</h1>
+    <ul id="messages"></ul>
+    <form id="chat-form">
+      <input id="message-input" autocomplete="off" placeholder="메시지를 입력하세요..." />
+      <button>보내기</button>
+    </form>
+  </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/chat.js"></script>
 </body>

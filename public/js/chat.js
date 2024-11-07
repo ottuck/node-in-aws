@@ -30,9 +30,10 @@ form.addEventListener('submit', (e) => {
 // 메시지 수신 및 표시
 socket.on('chat message', (data) => {
   const item = document.createElement('li');
+  const time = new Date(data.timestamp).toLocaleTimeString(); // 시간 형식 변환
   item.innerHTML = `
-    <img src="${data.profileImage}" alt="프로필 이미지" width="30" height="30" style="border-radius:50%; margin-right:10px;">
-    <strong>${data.username}</strong>: ${data.message}
+    <img src="${data.profileImage}" alt="프로필 이미지" width="30" height="30" style="margin-right:10px;">
+    <strong>${data.username}</strong> <span style="color:gray; font-size:0.8em;">[${time}]</span>: ${data.message}
   `;
   messages.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
@@ -42,11 +43,22 @@ socket.on('chat message', (data) => {
 socket.on('load messages', (msgs) => {
   msgs.forEach(msg => {
     const item = document.createElement('li');
+    const time = new Date(msg.timestamp).toLocaleTimeString(); // 시간 형식 변환
     item.innerHTML = `
-      <img src="${msg.profileImage}" alt="프로필 이미지" width="30" height="30" style="border-radius:50%; margin-right:10px;">
-      <strong>${msg.username}</strong>: ${msg.message}
+      <img src="${msg.profileImage}" alt="프로필 이미지" width="30" height="30" style="margin-right:10px;">
+      <strong>${msg.username}</strong> <span style="color:gray; font-size:0.8em;">[${time}]</span>: ${msg.message}
     `;
     messages.appendChild(item);
   });
+  window.scrollTo(0, document.body.scrollHeight);
+});
+
+// 시스템 메시지 수신 및 표시
+socket.on('system message', (msg) => {
+  const item = document.createElement('li');
+  item.style.color = 'gray';
+  item.style.fontStyle = 'italic';
+  item.textContent = msg;
+  messages.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
 });
