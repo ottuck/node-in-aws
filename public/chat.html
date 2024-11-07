@@ -1,3 +1,4 @@
+<!-- public/chat.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,12 +6,13 @@
   <style>
     /* 간단한 스타일링 */
     body { font-family: Arial, sans-serif; }
-    #messages { list-style-type: none; padding: 0; }
-    #messages li { padding: 5px 10px; }
+    #messages { list-style-type: none; padding: 0; max-height: 500px; overflow-y: scroll; }
+    #messages li { padding: 5px 10px; display: flex; align-items: center; }
     #messages li:nth-child(odd) { background: #f9f9f9; }
-    #chat-form { display: flex; }
+    #chat-form { display: flex; margin-top: 10px; }
     #chat-form input { flex: 1; padding: 10px; }
     #chat-form button { padding: 10px; }
+    img { border-radius: 50%; }
   </style>
 </head>
 <body>
@@ -19,7 +21,6 @@
   <form id="chat-form">
     <input id="message-input" autocomplete="off" placeholder="메시지를 입력하세요..." /><button>보내기</button>
   </form>
-  <p><a href="/auth/logout">로그아웃</a></p>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/chat.js"></script>
 </body>
