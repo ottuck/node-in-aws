@@ -10,6 +10,12 @@
   <div id="chat-container">
     <header>
       <h1>PokeChat</h1>
+      <div id="theme-switcher">
+        <button onclick="setTheme('blue')">블루</button>
+        <button onclick="setTheme('red')">레드</button>
+        <button onclick="setTheme('green')">그린</button>
+        <button onclick="setTheme('purple')">퍼플</button>
+      </div>
     </header>
     <div id="messages-container">
       <ul id="messages"></ul>
@@ -21,5 +27,14 @@
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/chat.js"></script>
+  <script>
+    function setTheme(theme) {
+      if (theme === 'blue') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+    }
+  </script>
 </body>
 </html>

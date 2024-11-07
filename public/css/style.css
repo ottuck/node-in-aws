@@ -1,189 +1,298 @@
 /* public/css/style.css */
 
-/* 기본 리셋 및 스타일 */
+/* CSS 변수 정의 */
+:root {
+    /* 컬러 스킴 1: 블루 테마 */
+    --primary-color: #1976D2;
+    --secondary-color: #424242;
+    --background-color: #ECEFF1;
+    --surface-color: #FFFFFF;
+    --error-color: #D32F2F;
+    --on-primary: #FFFFFF;
+    --on-secondary: #FFFFFF;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #FFFFFF;
+}
+
+/* 컬러 스킴 2: 레드 테마 */
+[data-theme="red"] {
+    --primary-color: #D32F2F;
+    --secondary-color: #FFC107;
+    --background-color: #F5F5F5;
+    --surface-color: #FFFFFF;
+    --error-color: #B00020;
+    --on-primary: #FFFFFF;
+    --on-secondary: #000000;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #FFFFFF;
+}
+
+/* 컬러 스킴 3: 그린 테마 */
+[data-theme="green"] {
+    --primary-color: #388E3C;
+    --secondary-color: #8BC34A;
+    --background-color: #F1F8E9;
+    --surface-color: #FFFFFF;
+    --error-color: #C62828;
+    --on-primary: #FFFFFF;
+    --on-secondary: #000000;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #FFFFFF;
+}
+
+/* 컬러 스킴 4: 퍼플 테마 */
+[data-theme="purple"] {
+    --primary-color: #7B1FA2;
+    --secondary-color: #BA68C8;
+    --background-color: #F3E5F5;
+    --surface-color: #FFFFFF;
+    --error-color: #E53935;
+    --on-primary: #FFFFFF;
+    --on-secondary: #000000;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #FFFFFF;
+}
+
+/* 기본 스타일링 */
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-  }
-  
-  #chat-container {
-    width: 360px; /* 스마트폰 크기 비슷 */
-    height: 640px; /* 스마트폰 크기 비슷 */
-    border: 16px solid #333;
+}
+
+#chat-container {
+    width: 360px;
+    /* 스마트폰 크기 비슷 */
+    height: 640px;
+    /* 스마트폰 크기 비슷 */
+    border: 16px solid var(--primary-color);
     border-radius: 30px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background-color: var(--surface-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
-  }
-  
-  /* 헤더 스타일 */
-  header {
-    background-color: #F8E71C; /* 카카오톡 노란색 */
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: var(--primary-color);
     padding: 15px;
     text-align: center;
     border-bottom: 1px solid #ddd;
-  }
-  
-  header h1 {
+}
+
+header h1 {
     margin: 0;
-    font-size: 1.2em;
-    color: #333;
-  }
-  
-  /* 메시지 컨테이너 */
-  #messages-container {
+    font-size: 1.8em;
+    color: var(--on-primary);
+}
+
+/* 테마 전환 버튼 스타일 */
+#theme-switcher {
+    margin-top: 10px;
+}
+
+#theme-switcher button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    color: var(--on-secondary);
+    transition: background-color 0.3s;
+}
+
+#theme-switcher button:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+/* 메시지 컨테이너 */
+#messages-container {
     flex: 1;
     padding: 10px;
     overflow-y: scroll;
-    background-color: #ece5dd; /* 카카오톡 채팅 배경색 */
-  }
-  
-  /* 메시지 리스트 */
-  #messages {
+    background-color: var(--background-color);
+}
+
+/* 메시지 리스트 */
+#messages {
     list-style-type: none;
     padding: 0;
     margin: 0;
-  }
-  
-  /* 개별 메시지 */
-  .message {
+}
+
+/* 개별 메시지 */
+.message {
     display: flex;
     align-items: flex-end;
     margin-bottom: 10px;
-  }
-  
-  .message.sent {
+}
+
+.message.sent {
     justify-content: flex-end;
-  }
-  
-  .message.received {
+}
+
+.message.received {
     justify-content: flex-start;
-  }
-  
-  .message.sent .profile {
-    margin-right: 0;
-    margin-left: 10px;
+}
+
+.message.sent .profile {
     display: none;
-  }
-  
-  .message.received .profile {
+    /* 보낸 메시지의 프로필 이미지 숨김 */
+}
+
+.message.received .profile {
+    display: block;
     margin-right: 10px;
     margin-left: 0;
-    display: block;
-  }
-  
-  .message .profile {
+}
+
+.message .profile {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
-  }
-  
-  .message .profile img {
+}
+
+.message .profile img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  
-  /* 메시지 버블 */
-  .message .bubble {
+}
+
+/* 메시지 버블 */
+.message .bubble {
     max-width: 70%;
     padding: 10px 15px;
     border-radius: 20px;
     position: relative;
     word-wrap: break-word;
     font-size: 0.9em;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-  }
-  
-  .message.sent .bubble {
-    background-color: #DCF8C6; /* 카카오톡 보낸 메시지 색 */
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.sent .bubble {
+    background-color: var(--primary-color);
+    color: var(--on-primary);
     border-bottom-right-radius: 0;
-    margin-left: auto;
-  }
-  
-  .message.received .bubble {
-    background-color: #FFFFFF; /* 카카오톡 받은 메시지 색 */
-    border-bottom-left-radius: 0;
+}
+
+.message.received .bubble {
+    background-color: var(--surface-color);
+    color: var(--on-surface);
     border: 1px solid #ddd;
-    margin-right: auto;
-  }
-  
-  /* 타임스탬프 */
-  .timestamp {
-    color: gray;
+    border-bottom-left-radius: 0;
+}
+
+/* 타임스탬프 */
+.timestamp {
+    color: var(--on-background);
     font-size: 0.7em;
     margin-left: 5px;
-  }
-  
-  /* 채팅 입력 폼 */
-  #chat-form {
+}
+
+/* 채팅 입력 폼 */
+#chat-form {
     display: flex;
     border-top: 1px solid #ddd;
     padding: 10px;
-    background-color: #f0f0f0;
-  }
-  
-  #chat-form input {
+    background-color: var(--background-color);
+}
+
+#chat-form input {
     flex: 1;
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-radius: 20px;
     outline: none;
     font-size: 0.9em;
-  }
-  
-  #chat-form button {
+}
+
+#chat-form button {
     padding: 10px 20px;
     margin-left: 10px;
     border: none;
     border-radius: 20px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--secondary-color);
+    color: var(--on-secondary);
     cursor: pointer;
     font-size: 0.9em;
     transition: background-color 0.3s;
-  }
-  
-  #chat-form button:hover {
-    background-color: #45a049;
-  }
-  
-  /* 시스템 메시지 스타일 */
-  .message.system {
+}
+
+#chat-form button:hover {
+    opacity: 0.8;
+}
+
+/* 시스템 메시지 스타일 */
+.message.system {
     justify-content: center;
-  }
-  
-  .message.system .bubble {
+}
+
+.message.system .bubble {
     background-color: #f0f0f0;
+    color: #555;
     border: none;
     font-style: italic;
     text-align: center;
-  }
-  
-  /* 스크롤바 스타일 (옵션) */
-  #messages-container::-webkit-scrollbar {
+}
+
+/* 스크롤바 스타일 (옵션) */
+#messages-container::-webkit-scrollbar {
     width: 6px;
-  }
-  
-  #messages-container::-webkit-scrollbar-track {
+}
+
+#messages-container::-webkit-scrollbar-track {
     background: #f1f1f1;
-  }
-  
-  #messages-container::-webkit-scrollbar-thumb {
+}
+
+#messages-container::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 3px;
-  }
-  
-  #messages-container::-webkit-scrollbar-thumb:hover {
+}
+
+#messages-container::-webkit-scrollbar-thumb:hover {
     background: #555;
-  }
-  
+}
+
+/* 추가적인 반응형 디자인 */
+@media (max-width: 500px) {
+    #chat-container {
+        width: 90%;
+        height: 90%;
+        border: 12px solid var(--primary-color);
+    }
+
+    .message .profile {
+        width: 50px;
+        height: 50px;
+    }
+
+    #theme-switcher button {
+        padding: 5px 8px;
+        font-size: 0.8em;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+}
