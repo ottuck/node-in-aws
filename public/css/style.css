@@ -68,7 +68,7 @@ body {
 /* 채팅 컨테이너 */
 #chat-container {
     max-width: 500px; /* 최대 너비 설정 */
-    height: 100vh; /* 화면 높이에 맞게 조절 */
+    height: 90vh; /* 화면 높이에 맞게 조절 */
     margin: 0 auto; /* 가운데 정렬 */
     background-color: var(--surface-color);
     display: flex;
@@ -98,7 +98,7 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 2em;
 }
 
 #theme-switcher {
@@ -266,7 +266,7 @@ header h1 {
     }
 
     header h1 {
-        font-size: 1.2em;
+        font-size: 2em;
     }
 
     .message .bubble {

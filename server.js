@@ -48,7 +48,7 @@ const USER_CLEANUP_INTERVAL = 60 * 60 * 1000; // 1시간
 // 비활성 사용자 제거 시간 기준 (예: 48시간)
 const USER_INACTIVE_THRESHOLD = 48 * 60 * 60 * 1000; // 48시간
 
-// 사용자 정리 함수
+// 비활성 사용자 정리 함수
 function cleanUpInactiveUsers() {
   const now = Date.now();
   for (const userId in users) {
@@ -60,7 +60,7 @@ function cleanUpInactiveUsers() {
   }
 }
 
-// 사용자 정리 작업 스케줄링
+// 사용자 정리 작업 스케줄링 
 setInterval(cleanUpInactiveUsers, USER_CLEANUP_INTERVAL);
 
 // Socket.IO 이벤트 처리
@@ -101,11 +101,11 @@ io.on('connection', (socket) => {
       io.emit('system message', `${user.username}님이 채팅에 참여하셨습니다.`);
     }
 
-    // 이전 메시지 로드: 접속 시간 이후의 메시지만 로드
+    // 모든 이전 메시지 로드
     (async () => {
       try {
-        const messages = await Message.find({ timestamp: { $gte: user.connectTime } })
-          .sort({ timestamp: 1 })
+        const messages = await Message.find({})
+          .sort({ timestamp: 1 }) // 모든 메시지 시간순 정렬
           .exec();
         socket.emit('load messages', messages);
       } catch (err) {
