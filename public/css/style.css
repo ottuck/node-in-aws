@@ -128,23 +128,35 @@ header h1 {
     display: flex;
     align-items: flex-end;
     margin-bottom: 10px;
-}
-
-.message.sent {
+  }
+  
+  /* 본인이 보낸 메시지 */
+  .message.sent {
     justify-content: flex-end;
-}
-
-.message.received {
+  }
+  
+  /* 상대방이 보낸 메시지 */
+  .message.received {
     justify-content: flex-start;
-}
-
-.message .profile {
-    width: 40px;
-    height: 40px;
+  }
+  
+  /* 프로필 이미지 */
+  .message .profile {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     overflow: hidden;
-}
-
+  }
+  
+  /* 프로필 이미지와 메시지 버블 사이의 간격 조정 */
+  .message.sent .profile {
+    margin-left: 0px;
+  }
+  
+  .message.received .profile {
+    margin-right: 10px;
+  }
+  
 .message .profile img {
     width: 100%;
     height: 100%;
