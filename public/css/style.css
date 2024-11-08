@@ -277,22 +277,93 @@ header h1 {
     background: #555;
 }
 
-/* 추가적인 반응형 디자인 */
-@media (max-width: 500px) {
+/* 기본 스타일: 데스크톱 및 태블릿 */
+#chat-container {
+    width: 360px;
+    height: 640px;
+    border: 16px solid var(--primary-color);
+    border-radius: 30px;
+    background-color: var(--surface-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 모바일 환경에서 반응형 디자인 적용 */
+
+/* iPhone SE (375px 이하) */
+@media (max-width: 375px) {
     #chat-container {
-        width: 90%;
-        height: 90%;
-        border: 12px solid var(--primary-color);
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
     }
 
-    .message .profile {
-        width: 50px;
-        height: 50px;
+    header {
+        font-size: 1em;
+        padding: 8px;
     }
 
-    #theme-switcher button {
-        padding: 5px 8px;
-        font-size: 0.8em;
-        transition: background-color 0.3s, transform 0.3s;
+    .message .bubble {
+        max-width: 80%; /* 메시지 버블의 너비를 좁게 */
+        font-size: 0.9em;
+    }
+
+    #chat-form input {
+        font-size: 0.9em;
+        padding: 8px 10px;
+    }
+
+    #chat-form button {
+        font-size: 0.9em;
+        padding: 8px 10px;
+    }
+}
+
+/* 모바일 환경에서 강제로 전체 화면 적용 */
+@media (max-width: 768px) {
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    #chat-container {
+        width: 100% !important;
+        height: 100vh !important; /* 뷰포트 높이 강제 적용 */
+        border: none !important;  /* 테두리 제거 */
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    #messages-container {
+        height: calc(100vh - 120px); /* 헤더와 입력창 제외 */
+        overflow-y: auto;
+    }
+
+    header {
+        padding: 10px;
+        font-size: 1.5em;
+    }
+
+    #chat-form {
+        height: auto;
+        padding: 10px;
+    }
+
+    #chat-form input {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    #chat-form button {
+        font-size: 1em;
+        padding: 10px 15px;
     }
 }

@@ -19,7 +19,7 @@ socket.on('user info', (data) => {
 const form = document.getElementById('chat-form');
 const input = document.getElementById('message-input');
 const messages = document.getElementById('messages');
-const messagesContainer = document.getElementById('messages-container'); // 추가된 부분
+const messagesContainer = document.getElementById('messages-container');  
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -44,6 +44,7 @@ socket.on('chat message', (data) => {
 
   item.classList.add('message', messageType);
 
+  // 프로필 이미지
   if (!isSent) {
     const profileDiv = document.createElement('div');
     profileDiv.classList.add('profile');
@@ -54,10 +55,12 @@ socket.on('chat message', (data) => {
     item.appendChild(profileDiv);
   }
 
+  // 메시지 내용 및 시간
   const bubbleDiv = document.createElement('div');
   bubbleDiv.classList.add('bubble');
   bubbleDiv.textContent = data.message;
 
+  // 시간 표시
   const timestampSpan = document.createElement('span');
   timestampSpan.classList.add('timestamp');
   const time = new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -69,7 +72,6 @@ socket.on('chat message', (data) => {
   messages.appendChild(item);
 
   // 자동 스크롤: messages-container에 scrollTop 설정
-  // messagesContainer.scrollTop = messagesContainer.scrollHeight;
   item.scrollIntoView({ behavior: 'smooth' });
 });
 
@@ -89,6 +91,7 @@ socket.on('load messages', (msgs) => {
 
     item.classList.add('message', messageType);
 
+    // 프로필 이미지
     if (!isSent) {
       const profileDiv = document.createElement('div');
       profileDiv.classList.add('profile');
@@ -99,10 +102,12 @@ socket.on('load messages', (msgs) => {
       item.appendChild(profileDiv);
     }
 
+    // 메시지 내용 및 시간
     const bubbleDiv = document.createElement('div');
     bubbleDiv.classList.add('bubble');
     bubbleDiv.textContent = msg.message;
 
+    // 시간 표시
     const timestampSpan = document.createElement('span');
     timestampSpan.classList.add('timestamp');
     const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
