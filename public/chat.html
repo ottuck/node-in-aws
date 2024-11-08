@@ -8,24 +8,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div id="chat-container">
-    <header>
-      <h1>PokeChat</h1>
-      <div id="theme-switcher">
-        <button onclick="setTheme('blue')">블루</button>
-        <button onclick="setTheme('red')">레드</button>
-        <button onclick="setTheme('green')">그린</button>
-        <button onclick="setTheme('purple')">퍼플</button>
+  <!-- 게임기 테두리를 포함한 컨테이너 추가 -->
+  <div id="game-frame">
+    <div id="chat-container">
+      <header>
+        <h1>PokeChat</h1>
+        <div id="theme-switcher">
+          <button onclick="setTheme('blue')">블루</button>
+          <button onclick="setTheme('red')">레드</button>
+          <button onclick="setTheme('green')">그린</button>
+          <button onclick="setTheme('purple')">퍼플</button>
+        </div>
+      </header>
+      <div id="messages-container">
+        <ul id="messages"></ul>
       </div>
-    </header>
-    <div id="messages-container">
-      <ul id="messages"></ul>
+      <form id="chat-form">
+        <input id="message-input" autocomplete="off" placeholder="메시지를 입력하세요..." />
+        <button type="submit">보내기</button>
+      </form>
     </div>
-    <!-- public/chat.html -->
-    <form id="chat-form">
-      <input id="message-input" autocomplete="off" placeholder="메시지를 입력하세요..." />
-      <button type="submit">보내기</button>
-    </form>
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/chat.js"></script>

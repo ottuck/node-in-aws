@@ -67,12 +67,25 @@ body {
 
 /* 채팅 컨테이너 */
 #chat-container {
-    max-width: 500px; /* 최대 너비를 설정하여 큰 화면에서는 일정 크기로 유지 */
+    max-width: 500px; /* 최대 너비 설정 */
     height: 100vh; /* 화면 높이에 맞게 조절 */
     margin: 0 auto; /* 가운데 정렬 */
     background-color: var(--surface-color);
     display: flex;
     flex-direction: column;
+    border-radius: 15px; /* 부드러운 테두리 */
+    overflow: hidden;
+    position: relative; /* 테두리 장식 추가를 위한 설정 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 데스크탑 테두리 */
+@media (min-width: 900px) {
+    #chat-container {
+        border: 10px solid #333; /* 게임기 테두리 */
+        border-radius: 30px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    }
 }
 
 /* 헤더 스타일 */
@@ -100,7 +113,7 @@ header h1 {
     cursor: pointer;
     background-color: var(--secondary-color);
     color: var(--on-secondary);
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #theme-switcher button:hover {
@@ -127,49 +140,42 @@ header h1 {
 .message {
     display: flex;
     align-items: flex-end;
-    margin-bottom: 10px;
-  }
-  
-  /* 본인이 보낸 메시지 */
-  .message.sent {
+    margin-bottom: 15px;
+}
+
+/* 본인이 보낸 메시지 */
+.message.sent {
     justify-content: flex-end;
-  }
-  
-  /* 상대방이 보낸 메시지 */
-  .message.received {
+}
+
+/* 상대방이 보낸 메시지 */
+.message.received {
     justify-content: flex-start;
-  }
-  
-  /* 프로필 이미지 */
-  .message .profile {
+}
+
+/* 프로필 이미지 */
+.message .profile {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     overflow: hidden;
-  }
-  
-  /* 프로필 이미지와 메시지 버블 사이의 간격 조정 */
-  .message.sent .profile {
-    margin-left: 0px;
-  }
-  
-  .message.received .profile {
-    margin-right: 10px;
-  }
-  
+    margin-right: 10px; /* 버블과의 간격 유지 */
+}
+
 .message .profile img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100%; /* 프로필 박스에 맞게 이미지 크기 조정 */
+    height: 100%; /* 동일한 크기 유지 */
+    object-fit: cover; /* 이미지 비율 유지 */
+    display: block; /* img 요소의 기본 여백 제거 */
 }
 
 .message .bubble {
     max-width: 70%;
-    padding: 10px 15px;
+    padding: 12px 18px;
     border-radius: 20px;
     position: relative;
     word-wrap: break-word;
-    font-size: 1em;
+    font-size: 1rem;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
@@ -191,6 +197,19 @@ header h1 {
     color: var(--on-background);
     font-size: 0.7em;
     margin-left: 5px;
+}
+
+/* 시스템 메시지 스타일 */
+.message.system {
+    justify-content: center;
+}
+
+.message.system .bubble {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+    font-style: italic;
+    text-align: center;
 }
 
 /* 채팅 입력 폼 */
@@ -218,24 +237,12 @@ header h1 {
     color: var(--on-secondary);
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #chat-form button:hover {
     opacity: 0.8;
-}
-
-/* 시스템 메시지 스타일 */
-.message.system {
-    justify-content: center;
-}
-
-.message.system .bubble {
-    background-color: #f0f0f0;
-    color: #555;
-    border: none;
-    font-style: italic;
-    text-align: center;
+    transform: scale(1.05);
 }
 
 /* 스크롤바 스타일 */
@@ -243,22 +250,12 @@ header h1 {
     width: 6px;
 }
 
-#messages-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
 #messages-container::-webkit-scrollbar-thumb {
-    background: #888;
+    background: linear-gradient(180deg, #888, #555);
     border-radius: 3px;
 }
 
-#messages-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
 /* 반응형 디자인 */
-
-/* 작은 모바일 기기 (최대 600px) */
 @media (max-width: 600px) {
     #chat-container {
         width: 100%;
@@ -285,27 +282,5 @@ header h1 {
     #chat-form button {
         font-size: 0.9em;
         padding: 8px 10px;
-    }
-}
-
-/* 중간 크기 기기 (600px ~ 900px) */
-@media (min-width: 601px) and (max-width: 900px) {
-    #chat-container {
-        max-width: 700px;
-    }
-
-    .message .bubble {
-        max-width: 75%;
-    }
-}
-
-/* 큰 화면 (900px 이상) */
-@media (min-width: 901px) {
-    #chat-container {
-        max-width: 800px;
-    }
-
-    .message .bubble {
-        max-width: 60%;
     }
 }
