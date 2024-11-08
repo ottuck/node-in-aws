@@ -7,9 +7,6 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 
-# 환경 변수 파일
-.env
-
 # 로그 파일
 logs
 *.log
