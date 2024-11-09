@@ -8,11 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <!-- 게임기 테두리를 포함한 컨테이너 추가 -->
   <div id="game-frame">
     <div id="chat-container">
       <header>
         <h1>PokeChat</h1>
+        <div id="online-users">
+          <span class="online-dot"></span>
+          <span id="online-count">접속자 수: 1</span>
+        </div>
         <div id="theme-switcher">
           <button onclick="setTheme('blue')">블루</button>
           <button onclick="setTheme('red')">레드</button>

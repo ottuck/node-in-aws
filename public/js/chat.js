@@ -1,5 +1,4 @@
 // public/js/chat.js
-
 const socket = io();
 
 // 현재 클라이언트의 사용자 정보
@@ -8,6 +7,14 @@ let currentUser = {
   username: '',
   profileImage: '',
 };
+
+// 온라인 사용자 수 업데이트 함수
+function updateOnlineCount(count) {
+  const onlineCount = document.getElementById('online-count');
+  if (onlineCount) {
+    onlineCount.textContent = `접속자 수: ${count}`;
+  }
+}
 
 // 사용자 식별자 초기화
 function initUser() {
@@ -38,6 +45,12 @@ initUser();
 socket.on('user info', (data) => {
   currentUser.username = data.username;
   currentUser.profileImage = data.profileImage;
+  
+  // 초기 온라인 수가 포함되어 있다면 업데이트
+  if (data.onlineCount) {
+    updateOnlineCount(data.onlineCount);
+  }
+  
   console.log('User info received:', currentUser);
 });
 
@@ -93,17 +106,15 @@ function renderMessage(data) {
 
   // 요소 조합
   if (isSent) {
-    // 본인이 보낸 메시지: 메시지 버블 뒤에 프로필 이미지
     item.appendChild(bubbleDiv);
     item.appendChild(profileDiv);
   } else {
-    // 상대방이 보낸 메시지: 프로필 이미지 뒤에 메시지 버블
     item.appendChild(profileDiv);
     item.appendChild(bubbleDiv);
   }
 
   messages.appendChild(item);
-
+  
   // 자동 스크롤
   item.scrollIntoView({ behavior: 'smooth' });
 }
@@ -119,7 +130,7 @@ socket.on('load messages', (msgs) => {
     renderMessage(msg);
   });
 
-  // 자동 스크롤: 메시지 로드 후 스크롤 맨 아래로 이동
+  // 자동 스크롤
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
 
@@ -137,4 +148,9 @@ socket.on('system message', (msg) => {
 
   // 자동 스크롤
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
+});
+
+// 온라인 사용자 수 업데이트 이벤트 리스너
+socket.on('online users update', (count) => {
+  updateOnlineCount(count);
 });
