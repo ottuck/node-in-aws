@@ -1,4 +1,6 @@
 // public/js/chat.js
+
+// Socket.IO 클라이언트 초기화
 const socket = io();
 
 // 현재 클라이언트의 사용자 정보
@@ -10,68 +12,30 @@ let currentUser = {
 
 // 온라인 사용자 수 업데이트 함수
 function updateOnlineCount(count) {
-  const onlineCount = document.getElementById('online-count');
-  if (onlineCount) {
-    onlineCount.textContent = `접속자 수: ${count}`;
+  const onlineCountElement = document.getElementById('online-count');
+  if (onlineCountElement) {
+    onlineCountElement.textContent = `접속자 수: ${count}`;
   }
 }
-
-// 사용자 식별자 초기화
-function initUser() {
-  // localStorage에서 사용자 ID 가져오기
-  let storedUserId = localStorage.getItem('userId');
-
-  if (!storedUserId) {
-    // 사용자 ID가 없으면 새로 생성
-    storedUserId = generateUniqueId();
-    localStorage.setItem('userId', storedUserId);
-  }
-
-  currentUser.id = storedUserId;
-
-  // 서버에 사용자 ID 전달하여 사용자 정보 요청
-  socket.emit('request user info', { userId: currentUser.id });
-}
-
-// 고유한 사용자 ID 생성 함수
-function generateUniqueId() {
-  return 'user-' + Math.random().toString(36).substr(2, 16);
-}
-
-// 초기화 함수 호출
-initUser();
 
 // 사용자 정보 수신
 socket.on('user info', (data) => {
+  currentUser.id = data.id;
   currentUser.username = data.username;
   currentUser.profileImage = data.profileImage;
-  
-  // 초기 온라인 수가 포함되어 있다면 업데이트
-  if (data.onlineCount) {
-    updateOnlineCount(data.onlineCount);
-  }
-  
+
   console.log('User info received:', currentUser);
 });
 
-const form = document.getElementById('chat-form');
-const input = document.getElementById('message-input');
-const messages = document.getElementById('messages');
-const messagesContainer = document.getElementById('messages-container');  
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  if (input.value) {
-    socket.emit('chat message', {
-      userId: currentUser.id,
-      message: input.value,
-    });
-    input.value = '';
-  }
+// 온라인 사용자 수 업데이트 이벤트 처리
+socket.on('online users update', (count) => {
+  updateOnlineCount(count);
 });
 
 // 메시지 렌더링 함수
 function renderMessage(data) {
+  const messages = document.getElementById('messages');
+
   const item = document.createElement('li');
 
   // 메시지 종류 결정
@@ -114,7 +78,7 @@ function renderMessage(data) {
   }
 
   messages.appendChild(item);
-  
+
   // 자동 스크롤
   item.scrollIntoView({ behavior: 'smooth' });
 }
@@ -126,7 +90,9 @@ socket.on('chat message', (data) => {
 
 // 이전 메시지 로드 및 표시
 socket.on('load messages', (msgs) => {
-  msgs.forEach((msg) => {
+  const messagesContainer = document.getElementById('messages-container');
+
+  msgs.reverse().forEach((msg) => {
     renderMessage(msg);
   });
 
@@ -136,6 +102,8 @@ socket.on('load messages', (msgs) => {
 
 // 시스템 메시지 수신 및 표시
 socket.on('system message', (msg) => {
+  const messages = document.getElementById('messages');
+
   const item = document.createElement('li');
   item.classList.add('message', 'system');
 
@@ -147,10 +115,57 @@ socket.on('system message', (msg) => {
   messages.appendChild(item);
 
   // 자동 스크롤
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  item.scrollIntoView({ behavior: 'smooth' });
 });
 
-// 온라인 사용자 수 업데이트 이벤트 리스너
-socket.on('online users update', (count) => {
-  updateOnlineCount(count);
+// 에러 메시지 처리
+socket.on('error', (error) => {
+  console.error('Socket error:', error);
+  const messages = document.getElementById('messages');
+
+  const item = document.createElement('li');
+  item.classList.add('message', 'system');
+
+  const bubbleDiv = document.createElement('div');
+  bubbleDiv.classList.add('bubble', 'system');
+  bubbleDiv.textContent = `Error: ${error}`;
+
+  item.appendChild(bubbleDiv);
+  messages.appendChild(item);
+
+  // 자동 스크롤
+  item.scrollIntoView({ behavior: 'smooth' });
+});
+
+// 서버와의 연결이 끊어졌을 때 처리
+socket.on('disconnect', () => {
+  console.log('서버와 연결이 끊어졌습니다.');
+  const messages = document.getElementById('messages');
+
+  const item = document.createElement('li');
+  item.classList.add('message', 'system');
+
+  const bubbleDiv = document.createElement('div');
+  bubbleDiv.classList.add('bubble', 'system');
+  bubbleDiv.textContent = '서버와 연결이 끊어졌습니다. 페이지를 새로고침하세요.';
+
+  item.appendChild(bubbleDiv);
+  messages.appendChild(item);
+
+  // 자동 스크롤
+  item.scrollIntoView({ behavior: 'smooth' });
+});
+
+// 채팅 입력 폼 처리
+const form = document.getElementById('chat-form');
+const input = document.getElementById('message-input');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (input.value.trim()) {
+    socket.emit('chat message', {
+      message: input.value,
+    });
+    input.value = '';
+  }
 });
