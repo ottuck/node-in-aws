@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  pokechat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+      - redis
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: chat_service_db
+
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "${REDIS_PORT}:6379"
